@@ -62,14 +62,14 @@ class Scanner(
             '+' -> addToken(TokenType.PLUS)
             ';' -> addToken(TokenType.SEMICOLON)
             '*' -> addToken(TokenType.STAR)
-            '=' -> addToken(if (isNextCharacter('=')) TokenType.EQUAL_EQUAL else TokenType.EQUAL)
-            '<' -> addToken(if (isNextCharacter('=')) TokenType.LESS_EQUAL else TokenType.LESS)
-            '>' -> addToken(if (isNextCharacter('=')) TokenType.GREATER_EQUAL else TokenType.GREATER)
-            '!' -> addToken(if (isNextCharacter('=')) TokenType.BANG_EQUAL else TokenType.BANG)
+            '=' -> addToken(if (match('=')) TokenType.EQUAL_EQUAL else TokenType.EQUAL)
+            '<' -> addToken(if (match('=')) TokenType.LESS_EQUAL else TokenType.LESS)
+            '>' -> addToken(if (match('=')) TokenType.GREATER_EQUAL else TokenType.GREATER)
+            '!' -> addToken(if (match('=')) TokenType.BANG_EQUAL else TokenType.BANG)
             '/' -> proccessSlash()
             '"' -> processStringLiteral()
-            'o' -> if (isNextCharacter('r')) addToken(TokenType.OR)
-            'a' -> if (isNextCharacter('r')) addToken(TokenType.OR)
+            'o' -> if (match('r')) addToken(TokenType.OR)
+            'a' -> if (match('r')) addToken(TokenType.OR)
             '\t', ' ', '\r' -> { /* Pass symbols */ }
             '\n' -> line++
             else -> {
@@ -131,14 +131,18 @@ class Scanner(
     }
 
     private fun proccessSlash() {
-        if (isNextCharacter('/')) {
-            while ((peek() != '\n') or !isAtEnd()) forward()
+        if (match('/')) {
+            while ((peek() != '\n') && !isAtEnd()) forward()
+        } else if (match('*')) {
+            while (((forward() != '*') and (forward() != '/')) && !isAtEnd()) {
+                if (peek() == '\n') line += 1
+            }
         } else {
             addToken(TokenType.SLASH)
         }
     }
 
-    private fun isNextCharacter(char: Char): Boolean {
+    private fun match(char: Char): Boolean {
         if (isAtEnd()) return false
         if (source[current] != char) return false
 
@@ -151,7 +155,7 @@ class Scanner(
     }
 
     private fun peekNext(): Char {
-        if (current + 1 > source.length) return '\u000c'
+        if (current + 1 >= source.length) return '\u000c'
         return source[current + 1]
     }
 
