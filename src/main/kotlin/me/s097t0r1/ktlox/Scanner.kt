@@ -134,9 +134,16 @@ class Scanner(
         if (match('/')) {
             while ((peek() != '\n') && !isAtEnd()) forward()
         } else if (match('*')) {
-            while (((forward() != '*') and (forward() != '/')) && !isAtEnd()) {
+            while ((peek() != '*' || peekNext() != '/') && !isAtEnd()) {
                 if (peek() == '\n') line += 1
+                if (peek() == '/' && peekNext() == '*') {
+                    forward()
+                    proccessSlash()
+                }
+                forward()
             }
+            forward()
+            forward()
         } else {
             addToken(TokenType.SLASH)
         }
