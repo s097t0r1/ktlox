@@ -6,15 +6,22 @@ import me.s097t0r1.ktlox.TokenType
 
 fun main() {
     val expression: Expression = Expression.Binary(
-        Expression.Unary(
-            Token(TokenType.MINUS, "-", null, 1),
-            Expression.Literal(123)
+        Expression.Grouping(
+            Expression.Binary(
+                Expression.Literal(1),
+                Token(TokenType.PLUS, "+", null, 1),
+                Expression.Literal(2)
+            )
         ),
         Token(TokenType.STAR, "*", null, 1),
         Expression.Grouping(
-            Expression.Literal(45.67)
+            Expression.Binary(
+                Expression.Literal(4),
+                Token(TokenType.MINUS, "-", null, 1),
+                Expression.Literal(3)
+            )
         )
     )
 
-    println(expression.accept(AstPrinterVisitor()))
+    println(expression.accept(RPNAstPrinterVisitor()))
 }
