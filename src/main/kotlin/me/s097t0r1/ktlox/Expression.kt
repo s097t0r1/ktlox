@@ -1,5 +1,7 @@
 package me.s097t0r1.ktlox
 
+import me.s097t0r1.ktlox.scanner.Token
+
 sealed class Expression {
 
 	abstract fun <R> accept(visitor: Visitor<R>): R
@@ -12,17 +14,17 @@ sealed class Expression {
 	}
 
 	class Binary(
-		val left: Expression,
-		val operator: Token,
-		val right: Expression,
+        val left: Expression,
+        val operator: Token,
+        val right: Expression,
 	) : Expression() {
 		override fun <R> accept(visitor: Visitor<R>): R =
 			visitor.visitBinaryExpression(this)
 	}
 
 	class Unary(
-		val operator: Token,
-		val right: Expression,
+        val operator: Token,
+        val right: Expression,
 	) : Expression() {
 		override fun <R> accept(visitor: Visitor<R>): R =
 			visitor.visitUnaryExpression(this)

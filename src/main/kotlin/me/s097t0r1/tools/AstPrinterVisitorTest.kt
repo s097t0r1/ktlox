@@ -1,8 +1,8 @@
 package me.s097t0r1.tools
 
 import me.s097t0r1.ktlox.Expression
-import me.s097t0r1.ktlox.Token
-import me.s097t0r1.ktlox.TokenType
+import me.s097t0r1.ktlox.scanner.Token
+import me.s097t0r1.ktlox.scanner.TokenType
 
 fun main() {
     val expression: Expression = Expression.Binary(

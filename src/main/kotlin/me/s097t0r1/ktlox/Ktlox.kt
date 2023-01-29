@@ -1,5 +1,8 @@
 package me.s097t0r1.ktlox
 
+import me.s097t0r1.ktlox.parser.Parser
+import me.s097t0r1.ktlox.scanner.Scanner
+import me.s097t0r1.tools.AstPrinterVisitor
 import java.io.File
 import kotlin.system.exitProcess
 
@@ -17,15 +20,14 @@ object Ktlox {
         while (true) {
             val line = readLine() ?: break
             run(line)
+            println()
             hadError = false
         }
     }
 
     private fun run(sourceCode: String) {
         val tokens = Scanner(sourceCode).scanTokens()
-        for (token in tokens) {
-            println(token)
-        }
+        Parser(tokens).parse()?.accept(AstPrinterVisitor())
     }
 
     fun error(line: Int, message: String) {

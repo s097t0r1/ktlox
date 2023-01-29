@@ -72,7 +72,7 @@ private fun defineTypes(writer: PrintWriter, baseClass: String, types: List<Stri
 private fun defineImports(writer: PrintWriter) {
     writer.println("package me.s097t0r1.ktlox")
     writer.println()
-    writer.println("import me.s097t0r1.ktlox.Token")
+    writer.println("import me.s097t0r1.ktlox.scanner.Token")
     writer.println()
 }
 

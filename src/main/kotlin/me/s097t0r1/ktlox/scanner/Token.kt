@@ -1,4 +1,4 @@
-package me.s097t0r1.ktlox
+package me.s097t0r1.ktlox.scanner
 
 class Token(
     val type: TokenType,

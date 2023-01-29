@@ -1,4 +1,6 @@
-package me.s097t0r1.ktlox
+package me.s097t0r1.ktlox.scanner
+
+import me.s097t0r1.ktlox.Ktlox
 
 class Scanner(
     private val source: String
@@ -98,7 +100,7 @@ class Scanner(
 
     private fun processDigit() {
         while (isDigit(peek()) && !isAtEnd()) forward()
-        if (isDigit(peekNext()) || peek() == '.') {
+        if (isDigit(peekNext()) && peek() == '.') {
             forward()
             while (isDigit(peek())) forward()
         }
